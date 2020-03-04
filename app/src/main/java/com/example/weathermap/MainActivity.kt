@@ -40,6 +40,9 @@ class MainActivity : AppCompatActivity() {
             LinearLayout.LayoutParams.WRAP_CONTENT,
             LinearLayout.LayoutParams.WRAP_CONTENT
         )
+        popupWindow.animationStyle = R.style.popUp_animation
+        popupWindow.isFocusable = true
+        popupWindow.isOutsideTouchable = true
         popupWindow.showAtLocation(viewPopUp, Gravity.CENTER, 0, 0)
     }
 
