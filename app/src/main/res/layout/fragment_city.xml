@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.city.CityFragment"
+    android:paddingHorizontal="@dimen/middle"
+    android:background="@android:color/white">
+    <EditText
+        android:id="@+id/search_field"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@drawable/bg_search_field"
+        android:padding="8dp"
+        android:layout_marginTop="@dimen/middle"
+        android:hint="@string/enter_city_name"
+        android:drawableStart="@drawable/ic_search_black_24dp"
+        android:inputType="text"
+        android:imeOptions="actionSend"/>
+    <TextView
+        android:id="@+id/city_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/popular"
+        app:layout_constraintTop_toBottomOf="@id/search_field"
+        android:layout_marginTop="@dimen/middle"
+        android:textSize="16sp"
+        />
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_cities"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/city_title"
+        android:layout_marginTop="@dimen/middle"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:listitem="@layout/item_city"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

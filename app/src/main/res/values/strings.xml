@@ -6,4 +6,6 @@
     <string name="map">Map</string>
     <string name="search">Search</string>
     <string name="profile">Profile</string>
+    <string name="popular">Популярное</string>
+    <string name="enter_city_name">Введите название города</string>
 </resources>
