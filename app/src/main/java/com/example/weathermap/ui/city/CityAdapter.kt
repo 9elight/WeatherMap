@@ -8,13 +8,8 @@ import com.example.weathermap.R
 import com.example.weathermap.model.countriesModel.Countries
 import kotlinx.android.synthetic.main.item_city.view.*
 
-class CityAdapter() : RecyclerView.Adapter<CityAdapter.ViewHolder>() {
-    lateinit var list:List<Countries>
+class CityAdapter(private var list: List<Countries>) : RecyclerView.Adapter<CityAdapter.ViewHolder>() {
 
-    fun updateList(list:List<Countries>){
-        this.list = list
-        notifyDataSetChanged()
-    }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder = ViewHolder(
         LayoutInflater.from(parent.context).inflate(R.layout.item_city,parent,false)
     )
