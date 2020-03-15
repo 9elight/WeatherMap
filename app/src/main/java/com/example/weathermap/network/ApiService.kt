@@ -19,5 +19,6 @@ import retrofit2.http.Query
         @GET("rest/v2/capital/{capital}")
         fun getCityInfo(@Path("capital") capital: String) :Observable<List<Countries>>
 
-
+        @GET("rest/v2/all")
+        fun getAllCountries() : Call<List<Countries>>
     }

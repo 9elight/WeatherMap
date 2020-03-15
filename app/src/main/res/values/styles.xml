@@ -17,4 +17,10 @@
         <item name="android:windowExitAnimation">@android:anim/slide_out_right</item>
     </style>
 
+    <style name="city_item_tv_style">
+        <item name="android:padding">@dimen/xs_dimen</item>
+        <item name="android:textSize">@dimen/middle_text_size</item>
+        <item name="android:layout_marginStart">@dimen/s_dimen</item>
+    </style>
+
 </resources>
