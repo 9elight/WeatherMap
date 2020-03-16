@@ -2,10 +2,8 @@ package com.example.weathermap
 
 import android.os.Bundle
 import android.view.View
-import android.widget.PopupWindow
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import com.example.weathermap.ui.city.CityFragment
 import com.example.weathermap.ui.map.MapFragment
 import com.example.weathermap.ui.map.MapViewModel
@@ -14,9 +12,6 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 class MainActivity : AppCompatActivity() {
-    //    val fab: FloatingActionButton = findViewById(R.id.fab)
-    private var TAG_FRAGMENT: String? = "TAG_FRAGMENT"
-    private lateinit var popupWindow: PopupWindow
     private val viewModel : MapViewModel by viewModel()
     private lateinit var mapFragment: MapFragment
     private lateinit var cityFragment: CityFragment

@@ -1,8 +1,10 @@
 package com.example.weathermap.ui.city
 
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.weathermap.R
@@ -32,7 +34,8 @@ class CityAdapter(val listener: OnItemClickListener) : RecyclerView.Adapter<City
         fun bind(countries: Countries) {
             itemView.city_name.text = countries.capital
             itemView.country_name.text = countries.name
-            Glide.with(itemView.context).load(countries.flag).into(itemView.flag_ic)
+            val uri:Uri = Uri.parse(countries.flag)
+            listener.loadImage(uri,itemView.flag_ic)
             itemView.setOnClickListener{
                 listener.onItemClicked(countries)
             }
@@ -41,5 +44,6 @@ class CityAdapter(val listener: OnItemClickListener) : RecyclerView.Adapter<City
     }
     interface OnItemClickListener {
         fun onItemClicked(item: Countries)
+        fun loadImage(imageUrl:Uri,imageView: ImageView)
     }
 }

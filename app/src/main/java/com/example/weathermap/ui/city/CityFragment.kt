@@ -1,5 +1,6 @@
 package com.example.weathermap.ui.city
 
+import android.net.Uri
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -8,11 +9,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import com.example.weathermap.R
 import com.example.weathermap.core.CoreFragment
 import com.example.weathermap.model.countriesModel.Countries
+import com.github.twocoffeesoneteam.glidetovectoryou.GlideToVectorYou
 import kotlinx.android.synthetic.main.fragment_city.*
 import kotlinx.android.synthetic.main.fragment_city.view.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -50,6 +53,10 @@ class CityFragment : CoreFragment(R.layout.fragment_city), CityAdapter.OnItemCli
         Toast.makeText(activity, "Clicked" + item.capital, Toast.LENGTH_LONG).show()
     }
 
+    override fun loadImage(imageUrl: Uri, imageView: ImageView) {
+        GlideToVectorYou.justLoadImage(activity,imageUrl,imageView)
+    }
+
 
     private fun searchItem(textToSearch: String, list: ArrayList<Countries>) {
         val changedList = list.groupBy {
@@ -63,25 +70,4 @@ class CityFragment : CoreFragment(R.layout.fragment_city), CityAdapter.OnItemCli
     }
 }
 
-//timer = object : CountDownTimer(2000, 1000) {
-
-
-//}
-//    }
-//        Toast.makeText(activity, millisUntilFinished.toString(), Toast.LENGTH_LONG).show()
-//    override fun onTick(millisUntilFinished: Long) {
-//
-//    }
-//        updateRecycler()
-//    override fun onFinish() {
-//    private fun updateRecycler() {
-//        if (search.text.isNotEmpty()) cViewModel.getCityInfo(search.text.toString())
-//            .observeOn(AndroidSchedulers.mainThread())
-//            .subscribeOn(Schedulers.io())
-//            .subscribe({ result ->
-//                if (!result.isNullOrEmpty()) rv_cities.adapter = CityAdapter(result)
-//            }, { error ->
-//                error.printStackTrace()
-//            })
-//    }
 
