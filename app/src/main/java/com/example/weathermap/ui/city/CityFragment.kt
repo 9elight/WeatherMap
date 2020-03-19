@@ -4,10 +4,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
@@ -16,25 +13,40 @@ import com.example.weathermap.R
 import com.example.weathermap.core.CoreFragment
 import com.example.weathermap.model.countriesModel.Countries
 import com.github.twocoffeesoneteam.glidetovectoryou.GlideToVectorYou
-import kotlinx.android.synthetic.main.fragment_city.*
 import kotlinx.android.synthetic.main.fragment_city.view.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import kotlin.coroutines.CoroutineContext
 
-class CityFragment : CoreFragment(R.layout.fragment_city), CityAdapter.OnItemClickListener {
+class CityFragment : CoreFragment(R.layout.fragment_city), CityAdapter.OnItemClickListener,CoroutineScope {
     private lateinit var search: EditText
     private val cViewModel: CityViewModel by viewModel()
     private var listCountries: ArrayList<Countries> = ArrayList()
     private lateinit var adapter: CityAdapter
 
+    override val coroutineContext: CoroutineContext
+        get() = Dispatchers.Main
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        searchItem()
+    }
     override fun initViews(view: View) {
         adapter = CityAdapter(this)
         search = view.findViewById(R.id.search_field)
-        cViewModel.getAllCountries()
+        launch (){
+            cViewModel.getAllCountries()
+        }
         cViewModel.allCountries.observe(this, Observer {
             listCountries = ArrayList(it)
             view.rv_cities.adapter = adapter
             adapter.updateList(it)
         })
+    }
+
+    private fun searchItem() {
         search.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
             }
@@ -43,11 +55,18 @@ class CityFragment : CoreFragment(R.layout.fragment_city), CityAdapter.OnItemCli
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                if (listCountries.isNotEmpty()) searchItem(s.toString(), listCountries)
+
+                if (listCountries.isNotEmpty()) cViewModel.filterTheList(s.toString(), listCountries)
             }
         })
-    }
 
+        cViewModel.filteredList.observe(this, Observer {
+            adapter.updateList(it)
+        })
+        cViewModel.notFoundException.observe(this, Observer {
+            Toast.makeText(activity, "Not Found", Toast.LENGTH_LONG).show()
+        })
+    }
 
     override fun onItemClicked(item: Countries) {
         Toast.makeText(activity, "Clicked" + item.capital, Toast.LENGTH_LONG).show()
@@ -55,18 +74,6 @@ class CityFragment : CoreFragment(R.layout.fragment_city), CityAdapter.OnItemCli
 
     override fun loadImage(imageUrl: Uri, imageView: ImageView) {
         GlideToVectorYou.justLoadImage(activity,imageUrl,imageView)
-    }
-
-
-    private fun searchItem(textToSearch: String, list: ArrayList<Countries>) {
-        val changedList = list.groupBy {
-            it.name.contains(textToSearch)
-        }
-        if (changedList[true] != null) {
-            adapter.updateList(changedList.getValue(true))
-        } else {
-            Toast.makeText(activity, "Not Found", Toast.LENGTH_LONG).show()
-        }
     }
 }
 

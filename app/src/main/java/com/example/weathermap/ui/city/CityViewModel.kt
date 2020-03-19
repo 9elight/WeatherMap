@@ -1,23 +1,29 @@
 package com.example.weathermap.ui.city
 
-import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.weathermap.model.countriesModel.Countries
 import com.example.weathermap.repositories.CountryRepository
-import io.reactivex.Observable
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
+import com.example.weathermap.utils.SingleLiveEvent
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class CityViewModel(private  val cRepository:  CountryRepository) : ViewModel(){
     var allCountries: MutableLiveData<List<Countries>> = MutableLiveData<List<Countries>>()
     var filteredList: MutableLiveData<List<Countries>> = MutableLiveData<List<Countries>>()
-    fun getCityInfo(city: String) : Observable<List<Countries>>{
-      return cRepository.getCitiesInfo(city)
+    val notFoundException: SingleLiveEvent<Void> = SingleLiveEvent()
+    suspend fun getCityInfo(city: String) {
+        viewModelScope.launch {
+            cRepository.getCitiesInfo(city)
+        }
     }
 
-    fun getAllCountries(){
-        allCountries = cRepository.getAllCountries()
+     suspend fun getAllCountries(){
+         viewModelScope.launch(Dispatchers.IO) {
+             allCountries.postValue(cRepository.getAllCountries())
+         }
+
     }
 
     fun filterTheList(textToSearch:String,list:List<Countries>){
@@ -27,7 +33,7 @@ class CityViewModel(private  val cRepository:  CountryRepository) : ViewModel(){
         if (changedList[true] != null) {
             filteredList.value = changedList.getValue(true)
         } else {
-
+            notFoundException.call()
         }
     }
 

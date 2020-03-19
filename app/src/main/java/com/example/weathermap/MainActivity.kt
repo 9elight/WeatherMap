@@ -8,6 +8,7 @@ import com.example.weathermap.ui.city.CityFragment
 import com.example.weathermap.ui.map.MapFragment
 import com.example.weathermap.ui.map.MapViewModel
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.coroutines.Job
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
